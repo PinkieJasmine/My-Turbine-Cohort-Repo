@@ -1,5 +1,5 @@
-import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { Program, Wallet, AnchorProvider } from "@coral-xyz/anchor";
+import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { IDL, Turbin3Prereq } from "./programs/Turbin3_prereq";
 import wallet from "./Turbin3-wallet.json";
 
@@ -12,11 +12,7 @@ import wallet from "./Turbin3-wallet.json";
         const provider = new AnchorProvider(connection, new Wallet(keypair), { commitment: "confirmed" 
         });
         const programId = new PublicKey("WBAQSygkwMox2VuWKU133NxFrpDZUBdvSBeaBEue2Jq");
-        const program: Program<Turbin3Prereq> = new Program(
-            IDL, 
-            programId,
-            provider
-        );
+        const program: Program<Turbin3Prereq> = new Program(IDL, programId, provider);
 
 
     const enrollment_seeds = [Buffer.from("prereq"),
@@ -24,7 +20,7 @@ import wallet from "./Turbin3-wallet.json";
     const [enrollment_key, _bump] =
         PublicKey.findProgramAddressSync(
             enrollment_seeds, 
-            program.programId
+            programId
     );
 
     (async () => {
