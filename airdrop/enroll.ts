@@ -4,8 +4,6 @@ import { IDL, Turbin3Prereq } from "./programs/Turbin3_prereq";
 import wallet from "./Turbin3-wallet.json";
 
 
-(async () => {
-    try {
         const keypair = Keypair.fromSecretKey(new Uint8Array(wallet));
         const connection = new Connection("https://api.devnet.solana.com");
         
@@ -13,9 +11,10 @@ import wallet from "./Turbin3-wallet.json";
 
         const provider = new AnchorProvider(connection, new Wallet(keypair), { commitment: "confirmed" 
         });
+        const programId = new PublicKey("WBAQSygkwMox2VuWKU133NxFrpDZUBdvSBeaBEue2Jq");
         const program: Program<Turbin3Prereq> = new Program(
             IDL, 
-            "WBAQSygkwMox2VuWKU133NxFrpDZUBdvSBeaBEue2Jq",
+            programId,
             provider
         );
 
@@ -27,6 +26,9 @@ import wallet from "./Turbin3-wallet.json";
             enrollment_seeds, 
             program.programId
     );
+
+    (async () => {
+        try {
         const txhash = await program.methods
         .complete(github)
         .accounts({
